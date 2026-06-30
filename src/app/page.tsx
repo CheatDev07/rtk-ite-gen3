@@ -1,15 +1,21 @@
-import ButtonComponent from "@/components/ui/ButtonComponent";
-import GetCountComponent from "@/components/ui/GetCountComponent";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
+
+// import { CreateProductForm } from "@/components/forms/CreateProductForm";
+// import {  CreateProductForm } from "@/components/forms/CreateProductForm";
+// import ButtonComponent from "@/components/ui/ButtonComponent";
+// import GetCountComponent from "@/components/ui/GetCountComponent";
+// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+// import Image from "next/image";
+
+import { CreateProductForm } from "@/components/forms/CreateProductForm";
 
 
 export default function Home() {
   return (
 
-    <div>
-      <ButtonComponent />
-      <GetCountComponent />
+    <div className="p-4">
+      <CreateProductForm/>
+       {/* <LoginButton/> */}
+      
     </div>
   )
   //  <Card className="max-w-sm">

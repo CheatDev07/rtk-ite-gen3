@@ -27,14 +27,12 @@ import { Input } from "../ui/input"
 import { DataTablePagination } from "../ui/data-pagination"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { DataTableFacetedFilter } from "../ui/command-range"
-
+import { useCreateProductMutation } from "@/services/ecommerce"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
-
-
 
 export function DataTable<TData, TValue>({
   columns,
@@ -44,6 +42,54 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  // rtk query create new product 
+  const [createNewProduct, { isLoading, error}] = useCreateProductMutation();
+
+  // mock data to create new product 
+  const newProduct = {
+    "name": "Dell XPS 15 9530",
+    "description": "Premium ultrabook with a stunning InfinityEdge display",
+    "computerSpec": {
+      "processor": "Intel Core i7-13700H",
+      "ram": "32GB DDR5",
+      "storage": "1TB NVMe SSD",
+      "gpu": "NVIDIA GeForce RTX 4050 6GB",
+      "os": "Windows 11 Pro",
+      "screenSize": "15.6-inch 3.5K OLED Touch",
+      "battery": "86Wh, up to 13 hours"
+    },
+    "stockQuantity": 24,
+    "priceIn": 1450,
+    "priceOut": 1899,
+    "discount": 5,
+    "color": [
+      {
+        "color": "Platinum Silver",
+        "images": [
+          "https://example.com/images/dell-xps-15/silver-1.jpg",
+          "https://example.com/images/dell-xps-15/silver-2.jpg"
+        ]
+      },
+      {
+        "color": "Graphite Black",
+        "images": [
+          "https://example.com/images/dell-xps-15/black-1.jpg",
+          "https://example.com/images/dell-xps-15/black-2.jpg"
+        ]
+      }
+    ],
+    "thumbnail": "https://i.pinimg.com/1200x/b3/06/79/b30679118a1d811628d164bbf0a72d13.jpg",
+    "warranty": "2 years international warranty",
+    "availability": true,
+    "images": [
+      "https://example.com/images/dell-xps-15/main-1.jpg",
+      "https://example.com/images/dell-xps-15/main-2.jpg",
+      "https://example.com/images/dell-xps-15/main-3.jpg"
+    ],
+    "categoryUuid": "462d9f60-8346-45ab-b8b3-a597d240965b",
+    "supplierUuid": "a34496d2-370e-4332-8c6d-b4a6bc069bf1",
+    "brandUuid": "8f2e3bcb-bb0b-45a1-b9bc-1d43f08f0ddb"
+  };
 
   const table = useReactTable({
     data,
@@ -90,10 +136,20 @@ export function DataTable<TData, TValue>({
       }));
   };
 
+  // handle create new Product 
+  const handleCreateNewProduct = () => {
+     createNewProduct(
+      {
+        newProduct: JSON.stringify(newProduct),
+        accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN
+      }
+     )
+  }
+
   return (
-    <>
+
       <div>
-        <div className="flex items-center py-4">
+        <div className="flex justify-between py-4">
           <div className="flex gap-4">
             <Input
               placeholder="Filter name..."
@@ -119,12 +175,14 @@ export function DataTable<TData, TValue>({
 
           </div>
 
-          <DropdownMenu>
+          <div className="flex gap-4">
+             <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
                 View
               </Button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent align="end">
               {table
                 .getAllColumns()
@@ -141,6 +199,10 @@ export function DataTable<TData, TValue>({
                 ))}
             </DropdownMenuContent>
           </DropdownMenu>
+
+          {/* button create new product */}
+          <Button onClick={() => handleCreateNewProduct()}>Create Product</Button>
+          </div>
         </div>
 
         <div className="overflow-hidden rounded-md border">
@@ -190,6 +252,6 @@ export function DataTable<TData, TValue>({
           <DataTablePagination table={table} />
         </div>
       </div>
-    </>
+  
   )
 }

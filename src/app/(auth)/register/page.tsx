@@ -1,0 +1,9 @@
+
+
+export default function RegisterPage() {
+  return (
+    <div>
+      Welcome To Register Page
+    </div>
+  )
+}

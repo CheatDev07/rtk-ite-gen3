@@ -20,9 +20,12 @@ export type ProductHeader = {
 
 type ColumnsProps = {
   onViewDetail: (uuid:string) => void;
+  handleUpdateProductByUUID: (uuid:string) => void;
+  handleDeleteProductByUUID: (uuid:string) => void;
 }
 
-export const columns=({onViewDetail}:ColumnsProps): ColumnDef<ProductHeader>[] => [
+
+export const columns=({onViewDetail, handleUpdateProductByUUID,handleDeleteProductByUUID}:ColumnsProps): ColumnDef<ProductHeader>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -111,8 +114,8 @@ export const columns=({onViewDetail}:ColumnsProps): ColumnDef<ProductHeader>[] =
               View Product Detail
             </DropdownMenuItem>
             {/* The students will implements these 2 functions */}
-            <DropdownMenuItem>Update Product</DropdownMenuItem>
-            <DropdownMenuItem>Delete Product</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleUpdateProductByUUID(product?.uuid)}>Update Product</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleDeleteProductByUUID(product?.uuid)}>Delete Product</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
