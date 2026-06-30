@@ -8,7 +8,6 @@
 
 import { CreateProductForm } from "@/components/forms/CreateProductForm";
 
-
 export default function Home() {
   return (
 
